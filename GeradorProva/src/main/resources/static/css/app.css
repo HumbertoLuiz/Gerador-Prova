@@ -1,0 +1,40 @@
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+span.error{
+	color: red;
+}
+.inputError{
+	border: 1px solid red;
+}
+span.categoria{
+	border: 1px solid #c1c1c1;
+    margin: 0px 5px 0px 0px;
+    padding: 3px;
+    border-radius: 2px;	
+}
+span.moviedb {
+    font-family: 'charter';
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+    display: block;
+    padding: 5px 8px;
+    background: #e4fff0;
+    
+}
+div.row {
+	margin-bottom: 20px;
+} 

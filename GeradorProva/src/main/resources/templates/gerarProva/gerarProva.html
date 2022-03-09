@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+ <meta charset="utf-8">
+<head th:replace="head :: head"></head>
+
+<body>
+  <!-- 
+    BARRA DE NAVEGACAO 
+  -->
+  <div th:replace="menu :: menu"></div>
+  <!-- 
+    CONTEUDO DA PAGINA 
+  -->
+	<main class="container">
+		<div class="bg-light p-5 rounded">
+			<h3>Gerenciar Prova</h3>
+
+			<div th:switch="${prova.id>0}">
+				<p th:case="${true}">Atualização</p>
+				<p th:case="*">Cadastro da Prova</p>
+			</div>
+
+			<div th:object="${prova}" action="/gerar/save" method="POST">
+				<input type="hidden" th:field="${prova.id}" th:if="${prova.id}">     
+			</div>
+			
+			<div class="mb-3">
+				<p th:switch="${prova.id>0}">
+				<button type="submit" th:case="${true}" class="btn btn-danger" th:text="Atualizar"></button>
+				<button type="submit" th:case="*" class="btn btn-primary" th:text="Cadastrar"></button>
+				</p>
+			</div>
+      
+  </main>
+  <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

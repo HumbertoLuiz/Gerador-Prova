@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+
+<head th:replace="head :: head"></head>
+
+<body>
+	<!-- 
+    BARRA DE NAVEGACAO 
+  -->
+	<div th:replace="menu :: menu"></div>
+	<!-- 
+    CONTEUDO DA PAGINA 
+  -->
+	<main class="container">
+		<div class="bg-light p-5 rounded">
+			<h3>Assunto da Prova</h3>
+
+			<div th:switch="${realizar.id>0}">
+				<p th:case="${true}">Atualização</p>
+				<p th:case="*"><h3>Questão 1 de 10</h3></p>
+			</div>
+
+			<div th:object="${realizar}" action="/realizar/save" method="POST">
+				<input type="hidden" th:field="${realizar.id}" th:if="${realizar.id}">
+				
+				
+				<p><h5>1. Enunciado da Questão Aqui.............</h5></p>
+				<p><h5>Escolha dadas as questões abaixo. Apenas uma está correta</h5></p>
+	
+
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+						<label class="form-check-label" for="inlineRadio1">Resposta Errada</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+						<label class="form-check-label" for="inlineRadio2">Resposta Errada</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+						<label class="form-check-label" for="inlineRadio3">Resposta Errada</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option4">
+						<label class="form-check-label" for="inlineRadio3">Resposta Errada</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option5">
+						<label class="form-check-label" for="inlineRadio3">Resposta Correta</label>
+					</div>
+						
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<p th:switch="${realizar.id>0}">
+				<button type="submit" th:case="${true}" class="btn btn-danger" th:text="Atualizar"></button>
+				<button type="submit" th:case="*" class="btn btn-primary" th:text="Proximo"></button>
+				</p>
+			</div>
+			</form>
+		</div>
+	</main>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
