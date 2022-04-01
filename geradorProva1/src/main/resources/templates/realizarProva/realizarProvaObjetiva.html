@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+
+<head th:replace="head :: head"></head>
+
+<body>
+	<!-- 
+    BARRA DE NAVEGACAO 
+  -->
+	<div th:replace="menu :: menu"></div>
+	<!-- 
+    CONTEUDO DA PAGINA 
+  -->
+	<main class="container">
+		<div class="bg-light p-5 rounded">
+			<h1>Prova</h1>
+
+			<div th:switch="${realizar.id>0}">
+				<p th:case="${true}">Atualização</p>
+				<p th:case="*"><h5>Questões</h5></p>
+			</div>
+
+			<form th:object="${realizar}" action="/realizar/save" method="POST">
+				<input type="hidden" th:field="${realizar.id}" th:if="${realizar.id}">
+				
+				<div class="form-group row" th:each="questao: ${selecao}" >
+					<p th:text="${questao.enunciado}"></p>
+					<label for="nome"><h6>Escolha dadas as questões abaixo. Apenas uma está correta</h6></label>
+					
+					
+					
+	               	<div class="col-md" style="width: auto; margin-left: 10px; padding: 0px;">
+	               		<ol style="list-style-type: none; margin: 0px; padding: 0px;">
+			        		<li th:each="alt: ${questaoObjetiva.alternativaList}" th:text="${alt.alternativaList}"></li>
+			            	<li th:each="alt: $alternativaList}" th:text="${alt.alternativaList}"></li>
+			            	
+			        	</ol>
+	               	</div>	               					
+				</div>
+					
+				<div class="mb-3">
+					<p th:switch="${realizar.id>0}">
+					<button type="submit" th:case="${true}" class="btn btn-danger" th:text="Atualizar"></button>
+					<button type="submit" th:case="*" class="btn btn-primary" th:text="Salvar"></button>
+					</p>
+				</div>
+		</form>
+		</div>
+	</main>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

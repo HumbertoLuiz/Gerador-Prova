@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="utf-8">
+<link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+<div th:replace="head :: head"></div>
+
+<body>
+<!-- 
+    BARRA DE NAVEGACAO 
+  -->
+	<div th:replace="menu :: menu"></div>
+<!-- 
+    CONTEUDO DA PAGINA 
+  -->
+	<main class="container">
+		<div class="bg-light p-5 rounded">
+			<h3>Gerenciar Questoes Objetivas</h3>		
+		
+					
+      		<div th:switch="${questaoObjetiva.id>0}">
+      			<p th:case="${true}">Atualização</p>
+      			<p th:case="*">Cadastro da Questao</p>
+      		</div>
+      		
+			<form th:object="${questaoObjetiva}" th:action="@{/questaoObjetiva/save/}" method="POST">
+				<input type="hidden" th:field="${questaoObjetiva.id}" th:if="${questaoObjetiva.id}">
+		
+			<div class="form-group row">
+			
+			 <div class="form-group col-md-4">   		 
+   			 		<label for="nivel">COMPLEXIDADE</label>
+	                <select id="nivel" path= "nivel"  required="required" class="form-control" th:field="*{nivel}">
+	                    <option value="" >Selecione</option>
+	                    <option th:each="t: ${T(br.edu.ifpr.app.sae.model.Nivel).values()}"
+	                    th:text="${t.name()}" th:value="${t.name()}" ></option>
+            		</select>
+			 	</div>	
+						
+			</div>										
+				
+				<div class="form-group row">
+   			 <div class="form-group col-md-4">   		 
+   			 		<label for="tipo">Tipo de Prova</label>
+	                <select id="tipo" path= "tipo"  required="required" class="form-control" th:field="*{tipo}">
+	                    <option value="" >Selecione</option>
+	                    <option th:each="t: ${T(br.edu.ifpr.app.sae.model.Tipo).values()}"
+	                    th:text="${t.name()}" th:value="${t.name()}" ></option>
+            		</select>
+			 	</div>	
+						
+			</div>		
+								
+			<div class="form-group row">
+				<div class="col-md-8">
+					<label for="assunto">Assunto:</label>
+					<input type="text" th:field="*{assunto}" class="form-control" id="assunto" th:classappend="${#fields.hasErrors('assunto')} ? 'is-invalid'"/>
+				</div>	
+				</div>
+
+			<div class="form-group row">
+				<div class="col-md-8">
+					<label for="enunciado"><h4>Questao</h4></label>
+ 					<textarea th:field="*{enunciado}" class="form-control" id="enunciado" rows="5" th:classappend="${#fields.hasErrors('enunciado')} ? 'is-invalid'"></textarea>
+				</div>		
+				 </div>		
+				
+				<div class="card">
+			
+				<div class="card-header dynamic-update-rows">
+					Alternativas
+
+					<button type="button" name="addRow"
+						class="btn btn-sm btn-success float-right"
+						data-dynamic-update-rows-url="/questaoObjetiva/addRow">
+						<i class="fas fa-plus"></i>
+					</button>
+
+				</div>
+				<div class="card-body">
+
+					<table class="table dynamic-update-rows" style="width: 100%">
+												<thead> 
+													<tr> 
+														
+														<th>    </th> 
+														<th>    </th>
+														<th>Alternativa</th> 
+														
+														<th>    </th>
+														<th>    </th> 
+														<th>Resposta</th> 
+													</tr> 
+						 						</thead> 
+						<tbody id="dynamicTableContents">
+							<tr th:fragment="alternativas"
+								th:each="alternativa,rowStat : ${questaoObjetiva.alternativaList}">
+								<td th:text="${rowStat.count}">1</td>
+																
+								<td><input class="form-control form-control-sm"		
+														 
+									th:field="${questaoObjetiva.alternativaList[__${rowStat.index}__].enunciado}"
+									th:errorclass="is-invalid" />
+									<div
+										th:if="${#fields.hasErrors('${questaoObjetiva.alternativaList[__${rowStat.index}__].enunciado}')}"
+										class="invalid-feedback"
+										th:errors="${questaoObjetiva.alternativaList[__${rowStat.index}__].enunciado}"></div>
+								</td>								
+					  				th:each="alternativa,rowStat : ${questaoObjetiva.alternativaList}">
+								<td th:text="${rowStat.count}">1</td>
+																
+								<td><input class="form-control form-control-sm"								 
+									th:field="${questaoObjetiva.alternativaList[__${rowStat.index}__].correto}"
+									th:errorclass="is-invalid" />
+									<div
+										th:if="${#fields.hasErrors('${questaoObjetiva.alternativaList[__${rowStat.index}__].correto}')}"
+										class="invalid-feedback"
+										th:errors="${questaoObjetiva.alternativaList[__${rowStat.index}__].correto}"></div>
+								</td>																
+								
+								<td>
+									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+
+		<div class="mb-3">
+	          <p th:switch="${questaoObjetiva.id>0}">
+	            <button type="submit" th:case="${true}" class="btn btn-danger" th:text="Atualizar"></button>
+	            <button type="submit" th:case="*" class="btn btn-primary" th:text="Cadastrar"></button>
+	          </p>
+	        </div>	
+			<hr />
+			<br />
+			<div class="row justify-content-center">
+				<!-- 						<h5 class="card-title">Disciplina Details</h5> -->
+				<div th:if="${errorMessage}"
+					class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong>Error:</strong> <span th:text="${errorMessage}">Error</span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div th:if="${successMessage}"
+					class="alert alert-success alert-dismissible fade show"
+					role="alert">
+					<strong>Success:</strong> <span th:text="${successMessage}">Success</span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span><a th:href="@{/list}"
+						class="btn btn-sm btn-primary ml-2 mr-2"><i
+							class="fas fa-list-ol"></i> Go to Person List</a></span>
+				</div>
+
+				<div id="summary"></div>
+			</div>
+		</form>
+
+
+	</div>
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery-validation/jquery.validate.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
+	<script>
+		$(document).ready(function() {
+
+			$("#turmaDisciplinaForm").validate({focusCleanup: true, errorClass: "invalid",
+				  showErrors: function(errorMap, errorList) {
+					    $("#summary").html("Your form contains "
+					      + this.numberOfInvalids()
+					      + " errors, please fix them before submit.");
+					    this.defaultShowErrors();
+					  }
+					});
+
+			//$("input[name^='disciplinaList']").each(function() {
+			$("input[name$='enunciado']").each(function() {
+				$(this).rules('add', {
+					required : true,
+					rangelength : [ 10, 40 ]
+				});
+			});
+			
+			$("select[name$='correto']").each(function() {
+				$(this).rules('add', {
+					required : true
+				});
+			});
+			
+
+		});
+	</script>
+
+	</div>
+	
+	</main>
+
+
+
+</body>
+</html>

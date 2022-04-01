@@ -2,6 +2,7 @@ package br.edu.ifpr.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,35 +15,30 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
+
 @Entity
 public class Prova {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id_prova")
 	private Integer id;
 	
 	@Enumerated(EnumType.STRING)
-	private Tipo tipo;
+	private Nivel nivel;
 	
 	@ManyToMany
-    @JoinTable(name = "prova_objetiva", joinColumns = @JoinColumn(name = "prova_id", referencedColumnName = "id_prova"),
-    	inverseJoinColumns = @JoinColumn(name = "questaoObjetiva_id", referencedColumnName = "id_questao"))             
-    private List<QuestaoObjetiva> objetivas = new ArrayList<>();
-	
-	@ManyToMany
-    @JoinTable(name = "prova_subjetiva", joinColumns = @JoinColumn(name = "prova_id", referencedColumnName = "id_prova"),
-    	inverseJoinColumns = @JoinColumn(name = "questaoSubjetiva_id", referencedColumnName = "id_questao"))             
-    private List<QuestaoSubjetiva> subjetivas = new ArrayList<>();
+	@JoinTable(name = "prova_objetiva", joinColumns = { @JoinColumn(name = "prova_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "questao_id") })
+	private List<Questao> objetivas;	
+
 
 	public Prova() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Prova(Tipo tipo, List<QuestaoObjetiva> objetivas, List<QuestaoSubjetiva> subjetivas) {
-		this.tipo = tipo;
+	public Prova(Nivel nivel, List<Questao> objetivas) {
+		this.nivel = nivel;
 		this.objetivas = objetivas;
-		this.subjetivas = subjetivas;
 	}
 
 	public Integer getId() {
@@ -53,29 +49,24 @@ public class Prova {
 		this.id = id;
 	}
 
-	public Tipo getTipo() {
-		return tipo;
+
+	public Nivel getNivel() {
+		return nivel;
 	}
 
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
 	}
 
-	public List<QuestaoObjetiva> getObjetivas() {
+	public List<Questao> getObjetivas() {
 		return objetivas;
 	}
 
-	public void setObjetivas(List<QuestaoObjetiva> objetivas) {
+	public void setObjetivas(List<Questao> objetivas) {
 		this.objetivas = objetivas;
 	}
 
-	public List<QuestaoSubjetiva> getSubjetivas() {
-		return subjetivas;
-	}
 
-	public void setSubjetivas(List<QuestaoSubjetiva> subjetivas) {
-		this.subjetivas = subjetivas;
-	}
 	
 
 }

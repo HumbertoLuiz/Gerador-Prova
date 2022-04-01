@@ -22,8 +22,7 @@
 			</div>
 
 			<div th:object="${questao}" action="/questoes/save" method="POST">
-				<input type="hidden" th:field="${questao.id}" th:if="${questao.id}">
-				
+				<input type="hidden" th:field="${questao.id}" th:if="${questao.id}">				
 				
 				<label for="nome" class="col-sm-2 col-form-label"><h5>COMPLEXIDADE</h5></label>
 				<div class="form-check form-check-inline">
@@ -41,19 +40,37 @@
 				
 				<div class="form-check form-check-inline">
 					<div class="col-auto my-1">
-				      <label class="mr-sm-2" for="inlineFormCustomSelect">Selecione o Assunto</label>
-				      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-				        <option selected>Escolha...</option>
-				        <option value="1">One</option>
-				        <option value="2">Two</option>
-				        <option value="3">Three</option>
-				      </select>
+				     	<label class="mr-sm-2" for="inlineFormCustomSelect">Selecione o Tipo</label>
+				     		<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+				       		<option selected>Escolha...</option>
+				       		<option value="1">One</option>
+				       		<option value="2">Two</option>
+				       		<option value="3">Three</option>
+				     	</select>
 					</div>
 				</div>
+				
+				<div class="col-8">
+            		<label class="form-label" for="tipo">Tipo da Prova</label> 
+            		<select id="tipo" name="tipo" th:field="*{objetivas}" multiple="multiple" class="form-control select2-single">
+              			<option th:each="tip : ${questao.objetivas}"
+                      		th:value="${tip.id}"
+                      		th:text="${tip.tipo}">				
+              			</option>
+            		</select>
+          		</div>
+				
+				
+				<div class="form-group row">
+						<div class="col-sm-8">
+							<label for="nome" class="col-sm-2 col-form-label">Assunto:</label>
+							<input type="text" th:field="*{assunto}" class="form-control" id="alternativa"/>
+						</div>	
+				</div>
 
-				<h4>Questao</h4>
-				<div class="form-group">
-					<input type="text" class="form-control" id="nome" style="width:500px;height:100px;" />
+				<div class="md-form col-sm-8">
+					<label for="questao"><h4>Questao</h4></label>
+ 					<textarea class="md-textarea form-control" id="questao" rows="5"></textarea>
 				</div>
 
 				<div class="bg-light p-5 rounded">

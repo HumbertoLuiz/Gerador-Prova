@@ -1,5 +1,7 @@
 package br.edu.ifpr.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -14,8 +17,7 @@ public class Alternativas {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id_alternativas")
-	private Integer id;
+	private Long id;
 	
 	private String enunciado;
 	
@@ -23,23 +25,26 @@ public class Alternativas {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_questao")
-	private Questao questaoObjetiva;
+	private Questao questao;
+	
+	@ManyToMany(mappedBy="respostas")
+	private List<RealizarProva> realizar;
 
 	public Alternativas() {
 	
 	}
 
-	public Alternativas(String enunciado, Boolean correto, Questao questaoObjetiva) {
+	public Alternativas(String enunciado, Boolean correto, Questao questao) {
 		this.enunciado = enunciado;
 		this.correto = correto;
-		this.questaoObjetiva = questaoObjetiva;
+		this.questao = questao;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -59,15 +64,13 @@ public class Alternativas {
 		this.correto = correto;
 	}
 
-	public Questao getQuestaoObjetiva() {
-		return questaoObjetiva;
+	public Questao getQuestao() {
+		return questao;
 	}
 
-	public void setQuestaoObjetiva(Questao questaoObjetiva) {
-		this.questaoObjetiva = questaoObjetiva;
+	public void setQuestao(Questao questao) {
+		this.questao = questao;
 	}
-	
-	
-	
 
+	
 }

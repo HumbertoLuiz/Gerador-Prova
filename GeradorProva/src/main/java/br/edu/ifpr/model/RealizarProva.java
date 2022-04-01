@@ -21,8 +21,7 @@ public class RealizarProva {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id_realizarprova")
-	private Integer id;	
+	private Long id;	
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -31,37 +30,28 @@ public class RealizarProva {
 	 
 	
 	@ManyToMany
-    @JoinTable(name = "realizarprova_respostaObjetivas", joinColumns = @JoinColumn(name = "realizarprova_id", referencedColumnName = "id_realizarprova"),
-   	inverseJoinColumns = @JoinColumn(name = "altenativas_id", referencedColumnName = "id_alternativas"))        
-	 private List<Alternativas> respostasObjetivas = new ArrayList<>();
-
-	
-	@ElementCollection(targetClass=QuestaoSubjetiva.class)
-	@ManyToMany
-    @JoinTable(name = "realizarProva_respostasSubjetivas", joinColumns = @JoinColumn(name = "realizarprova_id", referencedColumnName = "id_realizarprova"),
-   	inverseJoinColumns = @JoinColumn(name = "respostasSubjetivas_id", referencedColumnName = "id_questao"))        
-    private Map<QuestaoSubjetiva, String> respostasSubjetivas;
-
+    @JoinTable(name = "realizarprova_alternativas", joinColumns = @JoinColumn(name = "realizarprova_id"),
+   	inverseJoinColumns = @JoinColumn(name = "altenativas_id"))        
+	 private List<Alternativas> respostas = new ArrayList<>();
 
 	public RealizarProva() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 
-	public RealizarProva(Prova prova, List<Alternativas> respostasObjetivas,
-			Map<QuestaoSubjetiva, String> respostasSubjetivas) {
+	public RealizarProva(Prova prova, List<Alternativas> respostas) {
 		this.prova = prova;
-		this.respostasObjetivas = respostasObjetivas;
-		this.respostasSubjetivas = respostasSubjetivas;
+		this.respostas = respostas;
+
 	}
 
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -76,25 +66,16 @@ public class RealizarProva {
 	}
 
 
-	public List<Alternativas> getRespostasObjetivas() {
-		return respostasObjetivas;
+	public List<Alternativas> getRespostas() {
+		return respostas;
 	}
 
 
-	public void setRespostasObjetivas(List<Alternativas> respostasObjetivas) {
-		this.respostasObjetivas = respostasObjetivas;
+	public void setRespostasObjetivas(List<Alternativas> respostas) {
+		this.respostas = respostas;
 	}
 
 
-	public Map<QuestaoSubjetiva, String> getRespostasSubjetivas() {
-		return respostasSubjetivas;
-	}
-
-
-	public void setRespostasSubjetivas(Map<QuestaoSubjetiva, String> respostasSubjetivas) {
-		this.respostasSubjetivas = respostasSubjetivas;
-	}
-
-		
+	
 
 }
